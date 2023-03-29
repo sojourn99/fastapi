@@ -16,10 +16,10 @@ def get_posts(db: Session = Depends(get_db), current_user: int = Depends(oauth2.
     # posts = cursor.fetchall()
 
     # get posts of all users
-    # posts = db.query(models.Post).all()
+    posts = db.query(models.Post).all()
 
     # get posts of logged in user
-    posts = db.query(models.Post).filter(models.Post.owner_id == current_user.id).all()
+    # posts = db.query(models.Post).filter(models.Post.owner_id == current_user.id).all()
     return posts
 
 
