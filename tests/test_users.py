@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from app.config import settings
 from app.database import get_db, Base
+import pytest
 
 SQLALCHEMY_DATABASE_URL = f"postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}_test"
 
@@ -26,17 +27,26 @@ def get_test_db():
 
 app.dependency_overrides[get_db] = get_test_db
 
-client = TestClient(app)
+
+@pytest.fixture
+def client():
+    # run code before running test
+    # drop all tables
+    Base.metadata.drop_all(bind=engine)
+    # create database tables
+    Base.metadata.create_all(bind=engine)
+    yield TestClient(app)
+    # run code after test finishes
 
 
-def test_root():
+def test_root(client):
     res = client.get("/")
     print(res.json().get("message"))
     assert res.json().get("message") == "Hello World! Pushing out to Ubuntu. Another change."
     assert res.status_code == 200
 
 
-def test_create_user():
+def test_create_user(client):
     res = client.post("/users/", json={"email": "hello1232@gmail.com", "password": "password123"})
     print(res.json())
     new_user = schemas.UserOut(**res.json())
