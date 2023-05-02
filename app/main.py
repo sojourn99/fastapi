@@ -27,4 +27,4 @@ app.include_router(vote.router)
 
 @app.get("/")
 def root():
-    return {"message": "Hello World! Pushing out to Ubuntu. Another change."}
+    return {"message": "Hello World! Pushing out to Ubuntu from Github Actions."}
