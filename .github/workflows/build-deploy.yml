@@ -69,7 +69,8 @@ jobs:
           username: ${{secrets.PROD_USERNAME}}
           key: ${{secrets.PROD_KEY}}
           script: |
-            sudo su - alex
+            echo ${{secrets.PROD_PASSWORD}} | sudo -S su - alex
+            pwd
             cd app/src
             git pull
             echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart api
