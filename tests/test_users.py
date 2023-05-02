@@ -7,7 +7,7 @@ import pytest
 def test_root(client):
     res = client.get("/")
     # print(res.json().get("message"))
-    assert res.json().get("message") == "Hello World! Pushing out to Ubuntu. Another change."
+    assert res.json().get("message") == "Hello World! Pushing out to Ubuntu from Github Actions."
     assert res.status_code == 200
 
 
