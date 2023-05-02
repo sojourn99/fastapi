@@ -70,6 +70,7 @@ jobs:
           key: ${{secrets.PROD_KEY}}
           script: |
             cd ../alex/app/src
+            git config --global --add safe.directory /home/alex/app/src
             git pull
             sudo systemctl restart api
       # login to our ubuntu
